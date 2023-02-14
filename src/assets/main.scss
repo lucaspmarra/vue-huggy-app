@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+$background-main: #f1f4f6;
+$page-font-color: #2c3e50;
+$action-button: #321BDE;
+$action-button-hover: #5946E4;
+$action-button-pressed: #2715B0;
+$action-button-focus: #2715B0;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background-color: $background-main;
+  color: $page-font-color;
+  font-family: 'Roboto';
+  min-height: 100vh;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.login {
+  display: grid;
+  height: 100vh;
+  place-items: center;
+
+  .login__header {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .login__button {
+    background-color: $action-button;
+    border-radius: 8px;
+    border-style: none;
+    color: #FFFFFF;
+    flex-grow: 0;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    height: 36px;
+    letter-spacing: 1.25px;
+    line-height: 18px;
+    padding: 9px 12px;
+    text-decoration: none;
+    width: 207px;
+
+    /* hover, active and focus animation on button */
+    transition: ease-in-out all 0.3s;
+
+    &:hover {
+      background-color: $action-button-hover;
+    }
+
+    &:active {
+      background-color: $action-button-pressed;
+    }
+
+    &:focus {
+      background-color: $action-button-focus;
+    }
+  }
+}
+
+
+.contact {
+  width: 930px;
+  height: 928px;
+  padding-top: 46px;
+
+
+  .contact__header {
+    padding: 0 0 18px 0;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0.15px;
+    color: #262626;
+  }
+
+  .contact__wrapper {
+    padding: 10px;
+    background-color: #FFFFFF;
+    /* mine-shaft/30 */
+    border: 1px solid #E1E1E1;
+
+    /* card shadow */
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+  }
+
+  .contact__photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+
+
+  th,
+  td {
+    text-align: left;
+    padding: 8px;
+    // height: 56px;
+
+
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+    border-radius: 8px;
+
+    &:hover {
+      transition: ease-in-out all 0.2s;
+      background-color: #dfdfdf;
+    }
+  }
+
+  .contact__caption {
+    display: none;
+  }
+}
+
+tbody {
+
+  tr {
+    &:hover {
+      transition: ease-in-out all 0.2s;
+      background-color: #dfdfdf;
+
+      border-radius: 8px;
+    }
+  }
+}
+
+.edit-button {
+  width: 25px;
+  height: 25px;
+  fill: #505050;
+}
+
+.delete-button {
+  width: 25px;
+  height: 25px;
+  fill: #505050;
+}

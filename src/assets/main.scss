@@ -153,14 +153,16 @@ tbody {
   }
 }
 
-.edit-button {
+#edit-button {
   width: 25px;
   height: 25px;
+  background-image: url('@/assets/icons/edit.svg');
   fill: #505050;
 }
 
-.delete-button {
+#delete-button {
   width: 25px;
   height: 25px;
+  background-image: url('@/assets/icons/delete.svg');
   fill: #505050;
 }

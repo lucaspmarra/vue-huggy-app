@@ -1,5 +1,5 @@
 <template>
-    <img class="edit-button" src="@/assets/icons/edit.svg" alt="Edit button">
+    <svg id="edit-button" alt="Edit button"></svg>
 </template>
 
 <script>

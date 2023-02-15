@@ -1,5 +1,5 @@
 <template>
-    <svg class="delete-button" src="@/assets/icons/delete.svg" alt="Delete button"></svg>
+    <svg id="delete-button" alt="Delete button"></svg>
 </template>
 
 <script>

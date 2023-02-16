@@ -95,8 +95,9 @@ body {
   .contact__wrapper {
     padding: 10px;
     background-color: #FFFFFF;
-    /* mine-shaft/30 */
     border: 1px solid #E1E1E1;
+    height: 700px;
+    margin-bottom: 20px;
 
     /* card shadow */
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
@@ -122,7 +123,7 @@ table {
     text-align: left;
     padding: 8px;
     // height: 56px;
-
+    font-size: 14px;
 
   }
 
@@ -165,4 +166,8 @@ tbody {
   height: 25px;
   background-image: url('@/assets/icons/delete.svg');
   fill: #505050;
+}
+
+hr {
+  width: 100%;
 }

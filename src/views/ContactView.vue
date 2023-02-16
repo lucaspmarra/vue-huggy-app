@@ -3,39 +3,49 @@
         <h2 class="contact__header">Contatos</h2>
         <section class="contact__wrapper">
             <article>
-                <input name="" id="" placeholder="Buscar contato">
+                <span class="icon"><i class="fa fa-search"></i></span>
+                <input type="search" id="search" placeholder="Search..." />
                 <button>Adicionar Contato</button>
             </article>
+
             <table>
                 <caption class="contact__caption">Lista de contatos</caption>
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Nome</th>
+                        <th></th>
                         <th>Email</th>
                         <th>Telefone</th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <hr>
-                    <tr v-for="contact in results" :key="contact.id">
-                        <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo"></td>
-                        <div>
-                            <td v-if="contact.name == ''">-</td>
-                            <td v-else>{{ contact.name }}</td>
-                        </div>
-                        <td>{{ contact.email }}</td>
-                        <td>{{ contact.mobile }}</td>
 
+                <tbody>
+                    <tr v-for="contact in results" :key="contact.id">
+                        <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
+                        </td>
+                        <td>{{ contact.name || '-' }} </td>
+                        <td>{{ contact.email || '-' }}</td>
+                        <td>{{ contact.mobile || '-' }}</td>
                         <td>
                             <EditButton />
                             <DeleteButton @click="deleteContact(contact.id)" />
                         </td>
                     </tr>
+
                 </tbody>
             </table>
         </section>
+        <!-- 
+        <Modal :showModal="show" @close="show = false">
+            <template #header>
+                <p>teste</p>
+            </template>
+            <template #body>
+                <p>teste</p>
+            </template>
+        </Modal>
+        <button @click="toggleModal" type="button">Open</button> -->
     </main>
     <!-- <pre>{{ results }}</pre> -->
 </template>
@@ -55,7 +65,12 @@ export default {
         const loading = ref(true);
         const results = ref([]);
         const error = ref(null);
+        const show = ref(false);
 
+
+        const toggleModal = () => {
+            show.value = !show.value;
+        }
 
         const api = axios.create({
             baseURL: 'https://api.huggy.app/v3',
@@ -107,7 +122,10 @@ export default {
             loading,
             results,
             error,
-            deleteContact
+            show,
+            toggleModal,
+            deleteContact,
+
 
         };
 

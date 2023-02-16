@@ -1,19 +1,22 @@
 <template>
-    <Transition name="modal">
-        <div v-if="show" class="modal-mask">
-            <div class="modal-container">
-                <div class="modal-header">
+    <Transition name="showModal">
+        <div v-if="showModal" class="modal_mask">
+            <div class="modal_container">
+                <span class="modal__close__button" @click="$emit('close')"></span>
+                <EditButton />
+                <DeleteButton @click="deleteContact(result.id)" />
+
+                <div class="modal_header">
                     <slot name="header">default header</slot>
                 </div>
 
-                <div class="modal-body">
-                    <slot name="body"></slot>
+                <div class="modal_body">
+                    <slot name="body">default body</slot>
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal_footer">
                     <slot name="footer">
                         default footer
-                        <button class="modal-default-button" @click="$emit('close')">OK</button>
                     </slot>
                 </div>
             </div>
@@ -21,29 +24,54 @@
     </Transition>
 </template>
 
-<script setup>
-const props = defineProps({
-    show: Boolean,
-    title: {
-        type: String,
-        required: false,
-    },
-    email: {
-        type: String,
-        required: false,
-    },
-    address: {
-        type: String,
-        required: false,
-    },
-    district: {
-        type: String,
-        required: false,
-    }
-})
+<script>
+import DeleteButton from '@/components/DeleteButton.vue'
+import EditButton from '@/components/EditButton.vue';
+export default {
+    components: { DeleteButton, EditButton },
+    props: ({
+        showModal: Boolean,
+        toggleModal: Boolean,
+        title: {
+            type: String,
+            required: false,
+        },
+        id: {
+            type: Number,
+            required: false,
+        },
+        name: {
+            type: String,
+            required: false,
+        },
+        photo: {
+            type: String,
+            required: false,
+        },
+        email: {
+            type: String,
+            required: false,
+        },
+        address: {
+            type: String,
+            required: false,
+        },
+        district: {
+            type: String,
+            required: false,
+        },
+        state: {
+            type: String,
+            required: false
+        },
+
+    }),
+}
+
+
 </script>
 <style>
-.modal-mask {
+.modal_mask {
     position: fixed;
     z-index: 9998;
     top: 0;
@@ -55,8 +83,8 @@ const props = defineProps({
     transition: opacity 0.3s ease;
 }
 
-.modal-container {
-    width: 300px;
+.modal_container {
+    width: 600px;
     margin: auto;
     padding: 20px 30px;
     background-color: #fff;
@@ -65,17 +93,37 @@ const props = defineProps({
     transition: all 0.3s ease;
 }
 
-.modal-header h3 {
+.modal_header h3 {
     margin-top: 0;
     color: #42b983;
 }
 
-.modal-body {
+.modal_body {
     margin: 20px 0;
 }
 
-.modal-default-button {
+.modal__edit__button {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
     float: right;
+    background-image: url('@/assets/icons/edit.svg');
+}
+
+.modal__delete__buton {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    float: right;
+    background-image: url('@/assets/icons/delete.svg');
+}
+
+.modal__close__button {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    float: right;
+    background-image: url('@/assets/icons/close.svg');
 }
 
 /*

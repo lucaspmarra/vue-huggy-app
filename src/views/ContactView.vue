@@ -2,10 +2,9 @@
     <main class="contact">
         <h2 class="contact__header">Contatos</h2>
         <section class="contact__wrapper">
-            <article>
-                <span class="icon"><i class="fa fa-search"></i></span>
-                <input type="search" id="search" placeholder="Search..." />
-                <button>Adicionar Contato</button>
+            <article class="contact__actions">
+                <input type="text" placeholder="Buscar contato" class="contact__search">
+                <button class="contact__create"><span class="contact__create__icon">Adicionar Contato</span></button>
             </article>
 
             <table>

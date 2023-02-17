@@ -87,14 +87,7 @@ body {
   height: 928px;
   padding-top: 46px;
 
-  .contact__empty {
-    text-align: center;
-  }
 
-  .contact__error {
-    float: inline-end;
-    text-align: center;
-  }
 
   .contact__header {
     padding: 0 0 18px 0;
@@ -188,11 +181,17 @@ body {
 }
 
 
+
 table {
   border-collapse: separate;
   border-spacing: 0;
   width: 100%;
 
+
+  .contact__error {
+    float: inline-end;
+    text-align: center;
+  }
 
   th,
   td {

@@ -20,20 +20,21 @@
                     </tr>
                 </thead>
 
-                <div class="contact__empty" v-if="loading">
+                <section class="contact__empty" v-if="loading">
                     <img src="@/assets/empty-book.svg"
                         alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
-                </div>
-                <section v-else>
-                    <section class="contact__error" v-if="error">
-                        <h2>Stacktrace:</h2>
-                        <p>{{ error.error }}</p>
-                        <p>{{ error.message }}</p>
-                        <div v-if="error.error === 'access_denied'">
-                            <p>Por favor, verifique o token de autenticação.</p>
-                        </div>
-                    </section>
-                    <tbody v-else>
+                </section>
+
+                <section class="contact__error" v-if="error">
+                    <h2>Stacktrace:</h2>
+                    <p>{{ error.error }}</p>
+                    <p>{{ error.message }}</p>
+                    <div v-if="error.error === 'access_denied'">
+                        <p>Por favor, verifique o token de autenticação.</p>
+                    </div>
+
+
+                    <tbody>
                         <tr v-for="contact in queryResults" :key="contact.id">
                             <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
                             </td>

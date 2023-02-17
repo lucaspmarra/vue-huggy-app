@@ -2,11 +2,11 @@
     <main class="contact">
         <h2 class="contact__header">Contatos</h2>
         <section class="contact__wrapper">
-            <article class="contact__actions">
+            <div class="contact__actions">
                 <input type="text" placeholder="Buscar contato" class="contact__search" v-model="searchQuery">
                 <button class="contact__create"><img src="@/assets/icons/add.svg" class="contact__create__icon"
                         alt="Create icon">Adicionar Contato</button>
-            </article>
+            </div>
 
             <table>
                 <caption class="contact__caption">Lista de contatos</caption>
@@ -19,31 +19,40 @@
                         <th></th>
                     </tr>
                 </thead>
-                <article v-if="loading">
+
+                <div class="contact__empty" v-if="loading">
                     <img src="@/assets/empty-book.svg"
                         alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
-                </article>
-
-                <tbody v-else-if="results">
-                    <tr v-for="contact in queryResults" :key="contact.id">
-                        <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
-                        </td>
-                        <td>{{ contact.name || '-' }} </td>
-                        <td>{{ contact.email || '-' }}</td>
-                        <td>{{ contact.mobile || '-' }}</td>
-                        <td>
-                            <EditIcon />
-                            <DeleteIcon @click="deleteContact(contact.id)" />
-                        </td>
-                    </tr>
-                </tbody>
-                <div v-else-if="error">
-                    {{ error.response.data.error }}
                 </div>
+                <section v-else>
+                    <section class="contact__error" v-if="error">
+                        <h2>Stacktrace:</h2>
+                        <p>{{ error.error }}</p>
+                        <p>{{ error.message }}</p>
+                        <div v-if="error.error === 'access_denied'">
+                            <p>Por favor, verifique o token de autenticação.</p>
+                        </div>
+                    </section>
+                    <tbody v-else>
+                        <tr v-for="contact in queryResults" :key="contact.id">
+                            <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
+                            </td>
+                            <td>{{ contact.name || '-' }} </td>
+                            <td>{{ contact.email || '-' }}</td>
+                            <td>{{ contact.mobile || '-' }}</td>
+                            <td>
+                                <EditIcon />
+                                <DeleteIcon @click="deleteContact(contact.id)" />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </section>
+
+
             </table>
 
         </section>
-
     </main>
     <!-- <pre>{{ results }}</pre> -->
 </template>
@@ -63,7 +72,7 @@ export default {
     setup () {
         const loading = ref(true);
         const results = ref([]);
-        const error = ref(null);
+        const error = ref(false);
         // const show = ref(false);
         const searchQuery = ref('');
         const queryResults = ref([]);
@@ -84,23 +93,19 @@ export default {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": `Bearer ${BearerToken}`
+                "Authorization": `Bearers ${BearerToken}`
             }
         });
-
-
 
         const getContacts = async () => {
             try {
                 const response = await api.get('/contacts')
                 results.value = response.data
                 console.log(results.value);
-            } catch (error) {
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(`Error: ${error.response.data.error}, \nhint: ${error.response.data.hint}, \nmessage: ${error.response.data.message}`);
-                }
-                error.value = error;
+            } catch (isError) {
+                console.log(isError.response.data);
+                error.value = isError.response.data;
+                console.log(`Error: ${error.response.data.error}, \nhint: ${error.response.data.hint}, \nmessage: ${error.response.data.message}`);
             } finally {
                 loading.value = false;
             }
@@ -137,11 +142,8 @@ export default {
             queryResults.value = results.value.filter(contact => {
                 return regex.test(contact.name) || regex.test(contact.email);
             });
-            // queryResults.value = results.value.filter(result => {
-            //     return regex.test(result.name) ||
-            //         regex.test(result.email);
-            // });
         })
+
         onMounted(getContacts);
 
         return {

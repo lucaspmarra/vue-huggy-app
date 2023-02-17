@@ -87,6 +87,16 @@ body {
   height: 928px;
   padding-top: 46px;
 
+  .contact__empty {
+    float: inline-end;
+    margin: 0;
+    text-align: center;
+  }
+
+  .contact__error {
+    float: inline-end;
+    text-align: center;
+  }
 
   .contact__header {
     padding: 0 0 18px 0;
@@ -179,6 +189,7 @@ body {
 
 }
 
+
 table {
   border-collapse: separate;
   border-spacing: 0;
@@ -220,6 +231,7 @@ tbody {
     }
   }
 }
+
 
 #edit-button {
   width: 25px;

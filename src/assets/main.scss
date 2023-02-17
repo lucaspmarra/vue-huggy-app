@@ -7,10 +7,13 @@ $action-button-hover: #5946E4;
 $action-button-pressed: #2715B0;
 $action-button-focus: #2715B0;
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  position: relative;
+  font-weight: normal;
 }
 
 html,
@@ -21,6 +24,9 @@ body {
   color: $page-font-color;
   font-family: 'Roboto';
   min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
 }
 
 .main {
@@ -126,8 +132,9 @@ body {
 
       width: 184px;
       height: 36px;
-      background: #321BDE;
+      background: $action-button;
       border-radius: 8px;
+      border-style: none;
 
       font-style: normal;
       font-weight: 500;
@@ -135,6 +142,18 @@ body {
       line-height: 18px;
       letter-spacing: 1.25px;
       color: #FFFFFF;
+
+      &:hover {
+        background-color: $action-button-hover;
+      }
+
+      &:active {
+        background-color: $action-button-pressed;
+      }
+
+      &:focus {
+        background-color: $action-button-focus;
+      }
 
       .contact__create__icon {
         fill: white;
@@ -149,16 +168,12 @@ body {
       max-width: 400px;
       padding: 10px 10px 10px 30px;
 
+
+      background: url("@/assets/icons/search.svg");
       background-repeat: no-repeat;
       background-position: 8px center;
       background-size: 1.675em;
-
-      .contact__search__icon {
-        background: url("@/assets/icons/search.svg");
-      }
     }
-
-
   }
 
 

@@ -3,8 +3,8 @@
         <div v-if="showModal" class="modal_mask">
             <div class="modal_container">
                 <span class="modal__close__button" @click="$emit('close')"></span>
-                <EditButton />
-                <DeleteButton @click="deleteContact(result.id)" />
+                <EditIcon />
+                <DeleteIcon @click="deleteContact(result.id)" />
 
                 <div class="modal_header">
                     <slot name="header">default header</slot>
@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import DeleteButton from '@/components/DeleteButton.vue'
-import EditButton from '@/components/EditButton.vue';
+import DeleteIcon from '@/components/DeleteIcon.vue'
+import EditIcon from '@/components/EditIcon.vue';
 export default {
-    components: { DeleteButton, EditButton },
+    components: { DeleteIcon, EditIcon },
     props: ({
         showModal: Boolean,
         toggleModal: Boolean,

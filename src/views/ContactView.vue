@@ -3,7 +3,7 @@
         <h2 class="contact__header">Contatos</h2>
         <section class="contact__wrapper">
             <article class="contact__actions">
-                <input type="text" placeholder="Buscar contato" class="contact__search">
+                <input type="text" placeholder="Buscar contato" class="contact__search" v-model="searchQuery">
                 <button class="contact__create"><img src="@/assets/icons/add.svg" class="contact__create__icon"
                         alt="Create icon">Adicionar Contato</button>
             </article>
@@ -19,59 +19,65 @@
                         <th></th>
                     </tr>
                 </thead>
+                <article v-if="loading">
+                    <img src="@/assets/empty-book.svg"
+                        alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
+                </article>
 
-                <tbody>
-                    <tr v-for="contact in results" :key="contact.id">
+                <tbody v-else-if="results">
+                    <tr v-for="contact in queryResults" :key="contact.id">
                         <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
                         </td>
                         <td>{{ contact.name || '-' }} </td>
                         <td>{{ contact.email || '-' }}</td>
                         <td>{{ contact.mobile || '-' }}</td>
                         <td>
-                            <EditButton />
-                            <DeleteButton @click="deleteContact(contact.id)" />
+                            <EditIcon />
+                            <DeleteIcon @click="deleteContact(contact.id)" />
                         </td>
                     </tr>
-
                 </tbody>
+                <div v-else-if="error">
+                    {{ error.response.data.error }}
+                </div>
             </table>
+
         </section>
-        <!-- 
-        <Modal :showModal="show" @close="show = false">
-            <template #header>
-                <p>teste</p>
-            </template>
-            <template #body>
-                <p>teste</p>
-            </template>
-        </Modal>
-        <button @click="toggleModal" type="button">Open</button> -->
+
     </main>
     <!-- <pre>{{ results }}</pre> -->
 </template>
 
 <script>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, watchEffect } from 'vue';
 import axios from 'axios';
-import EditButton from '@/components/EditButton.vue';
-import CreateButton from '@/components/CreateButton.vue';
-import DeleteButton from '@/components/DeleteButton.vue'
+import EditIcon from '@/components/EditIcon.vue';
+import CreateIcon from '@/components/CreateIcon.vue';
+import DeleteIcon from '@/components/DeleteIcon.vue'
 import Modal from '@/components/Modal.vue'
 
 const BearerToken = import.meta.env.VITE_BEARER_TOKEN
 
 export default {
-    components: { EditButton, DeleteButton, CreateButton, Modal },
+    components: { EditIcon, DeleteIcon, CreateIcon, Modal },
     setup () {
         const loading = ref(true);
         const results = ref([]);
         const error = ref(null);
-        const show = ref(false);
+        // const show = ref(false);
+        const searchQuery = ref('');
+        const queryResults = ref([]);
 
 
         const toggleModal = () => {
             show.value = !show.value;
         }
+
+        const state = reactive({
+            id: null,
+            isLoading: false,
+            error: null,
+        });
 
         const api = axios.create({
             baseURL: 'https://api.huggy.app/v3',
@@ -80,12 +86,9 @@ export default {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${BearerToken}`
             }
-        })
-        const state = reactive({
-            id: null,
-            isLoading: false,
-            error: null,
-        })
+        });
+
+
 
         const getContacts = async () => {
             try {
@@ -93,7 +96,10 @@ export default {
                 results.value = response.data
                 console.log(results.value);
             } catch (error) {
-                console.log(error);
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(`Error: ${error.response.data.error}, \nhint: ${error.response.data.hint}, \nmessage: ${error.response.data.message}`);
+                }
                 error.value = error;
             } finally {
                 loading.value = false;
@@ -116,6 +122,26 @@ export default {
             }
         }
 
+
+        watchEffect(() => {
+            const regex = new RegExp(searchQuery.value
+                .split(/\s+/)
+                .map(word => {
+                    return word.replace(/[áàäâ]/gi, '[aáàäâ]')
+                        .replace(/[éèëê]/gi, '[eéèëê]')
+                        .replace(/[íìïî]/gi, '[iíìïî]')
+                        .replace(/[óòöô]/gi, '[oóòöô]')
+                        .replace(/[úùüû]/gi, '[uúùüû]');
+                })
+                .join('\\s+'), 'i');
+            queryResults.value = results.value.filter(contact => {
+                return regex.test(contact.name) || regex.test(contact.email);
+            });
+            // queryResults.value = results.value.filter(result => {
+            //     return regex.test(result.name) ||
+            //         regex.test(result.email);
+            // });
+        })
         onMounted(getContacts);
 
         return {
@@ -123,11 +149,11 @@ export default {
             loading,
             results,
             error,
-            show,
+            // show,
             toggleModal,
             deleteContact,
-
-
+            searchQuery,
+            queryResults
         };
 
     },

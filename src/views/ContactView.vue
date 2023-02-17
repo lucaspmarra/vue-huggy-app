@@ -7,8 +7,11 @@
                 <button class="contact__create"><img src="@/assets/icons/add.svg" class="contact__create__icon"
                         alt="Create icon">Adicionar Contato</button>
             </div>
-
-            <table>
+            <section class="contact__empty" v-if="loading">
+                <img src="@/assets/empty-book.svg"
+                    alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
+            </section>
+            <table else>
                 <caption class="contact__caption">Lista de contatos</caption>
                 <thead>
                     <tr>
@@ -20,10 +23,7 @@
                     </tr>
                 </thead>
 
-                <section class="contact__empty" v-if="loading">
-                    <img src="@/assets/empty-book.svg"
-                        alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
-                </section>
+
 
                 <section class="contact__error" v-if="error">
                     <h2>Stacktrace:</h2>
@@ -33,28 +33,24 @@
                         <p>Por favor, verifique o token de autenticação.</p>
                     </div>
 
-
-                    <tbody>
-                        <tr v-for="contact in queryResults" :key="contact.id">
-                            <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
-                            </td>
-                            <td>{{ contact.name || '-' }} </td>
-                            <td>{{ contact.email || '-' }}</td>
-                            <td>{{ contact.mobile || '-' }}</td>
-                            <td>
-                                <EditIcon />
-                                <DeleteIcon @click="deleteContact(contact.id)" />
-                            </td>
-                        </tr>
-                    </tbody>
-
                 </section>
-
-
+                <tbody>
+                    <tr v-for="contact in queryResults" :key="contact.id">
+                        <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
+                        </td>
+                        <td>{{ contact.name || '-' }} </td>
+                        <td>{{ contact.email || '-' }}</td>
+                        <td>{{ contact.mobile || '-' }}</td>
+                        <td>
+                            <EditIcon />
+                            <DeleteIcon @click="deleteContact(contact.id)" />
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-
         </section>
     </main>
+
     <!-- <pre>{{ results }}</pre> -->
 </template>
 
@@ -94,7 +90,7 @@ export default {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": `Bearers ${BearerToken}`
+                "Authorization": `Bearer ${BearerToken}`
             }
         });
 

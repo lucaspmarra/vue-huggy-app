@@ -4,7 +4,8 @@
         <section class="contact__wrapper">
             <article class="contact__actions">
                 <input type="text" placeholder="Buscar contato" class="contact__search">
-                <button class="contact__create"><span class="contact__create__icon">Adicionar Contato</span></button>
+                <button class="contact__create"><img src="@/assets/icons/add.svg" class="contact__create__icon"
+                        alt="Create icon">Adicionar Contato</button>
             </article>
 
             <table>
@@ -53,13 +54,14 @@
 import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
 import EditButton from '@/components/EditButton.vue';
+import CreateButton from '@/components/CreateButton.vue';
 import DeleteButton from '@/components/DeleteButton.vue'
 import Modal from '@/components/Modal.vue'
 
 const BearerToken = import.meta.env.VITE_BEARER_TOKEN
 
 export default {
-    components: { EditButton, DeleteButton, Modal },
+    components: { EditButton, DeleteButton, CreateButton, Modal },
     setup () {
         const loading = ref(true);
         const results = ref([]);

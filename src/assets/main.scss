@@ -131,14 +131,14 @@ body {
 
       font-style: normal;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 18px;
       letter-spacing: 1.25px;
       color: #FFFFFF;
 
       .contact__create__icon {
-        background: url("@/assets/icons/add.svg") no-repeat 7px 7px;
-        padding-left: 30px;
+        fill: white;
+        // padding-left: 30px;
       }
     }
 
@@ -214,6 +214,13 @@ tbody {
 }
 
 #delete-button {
+  width: 25px;
+  height: 25px;
+  background-image: url('@/assets/icons/delete.svg');
+  fill: #505050;
+}
+
+#create-button {
   width: 25px;
   height: 25px;
   background-image: url('@/assets/icons/delete.svg');

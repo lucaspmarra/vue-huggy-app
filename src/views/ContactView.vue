@@ -4,8 +4,8 @@
         <section class="contact__wrapper">
             <div class="contact__actions">
                 <input type="text" placeholder="Buscar contato" class="contact__search" v-model="searchQuery">
-                <button class="contact__create"><img src="@/assets/icons/add.svg" class="contact__create__icon"
-                        alt="Create icon">Adicionar Contato</button>
+                <button @click="createModal" class="contact__create"><img src="@/assets/icons/add.svg"
+                        class="contact__create__icon" alt="Create icon">Adicionar Contato</button>
             </div>
             <section class="contact__empty" v-if="loading">
                 <img src="@/assets/empty-book.svg"
@@ -22,9 +22,6 @@
                         <th></th>
                     </tr>
                 </thead>
-
-
-
                 <section class="contact__error" v-if="error">
                     <h2>Stacktrace:</h2>
                     <p>{{ error.error }}</p>
@@ -49,10 +46,18 @@
                 </tbody>
             </table>
         </section>
-    </main>
 
-    <!-- <pre>{{ results }}</pre> -->
-</template>
+        <CreateModal :createModal="show" @close="show = false">
+            <template #header>
+                <p>Adicionar contato</p>
+            </template>
+            <template #body>
+                <p>body</p>
+            </template>
+        </CreateModal>
+        <!-- <button @click="toggleModal" type="button">Open</button> -->
+    </main>
+<!-- <pre>{{ results }}</pre> --></template>
 
 <script>
 import { ref, onMounted, reactive, watchEffect } from 'vue';
@@ -60,24 +65,28 @@ import axios from 'axios';
 import EditIcon from '@/components/EditIcon.vue';
 import CreateIcon from '@/components/CreateIcon.vue';
 import DeleteIcon from '@/components/DeleteIcon.vue'
-import Modal from '@/components/Modal.vue'
+import CreateModal from "@/components/CreateModal.vue";
+import Modal from '@/components/Modal.vue';
 
 const BearerToken = import.meta.env.VITE_BEARER_TOKEN
 
 export default {
-    components: { EditIcon, DeleteIcon, CreateIcon, Modal },
+    components: { EditIcon, DeleteIcon, CreateIcon, CreateModal, Modal },
     setup () {
         const loading = ref(true);
         const results = ref([]);
         const error = ref(false);
-        // const show = ref(false);
+        const show = ref(false);
         const searchQuery = ref('');
         const queryResults = ref([]);
 
+        const createModal = () => {
+            show.value = !show.value
+        };
 
         const toggleModal = () => {
             show.value = !show.value;
-        }
+        };
 
         const state = reactive({
             id: null,
@@ -122,8 +131,7 @@ export default {
                 getContacts() // make a call and refresh component
 
             }
-        }
-
+        };
 
         watchEffect(() => {
             const regex = new RegExp(searchQuery.value
@@ -139,7 +147,7 @@ export default {
             queryResults.value = results.value.filter(contact => {
                 return regex.test(contact.name) || regex.test(contact.email);
             });
-        })
+        });
 
         onMounted(getContacts);
 
@@ -148,8 +156,9 @@ export default {
             loading,
             results,
             error,
-            // show,
+            show,
             toggleModal,
+            createModal,
             deleteContact,
             searchQuery,
             queryResults
@@ -158,7 +167,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

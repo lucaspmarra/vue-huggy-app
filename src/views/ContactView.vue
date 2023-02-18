@@ -47,10 +47,9 @@
             </table>
         </section>
 
-        <!-- <CreateModal :createModal="show" @close="show = false" /> -->
-        <Modal :showModal="show" @close="show = false" :data="selectedContact" />
+        <Modal :showModal="show" @close="show = false" :data="selectedContact"
+            @delete-contact="deleteContact(selectedContact.id)" />
 
-        <!-- <button @click="toggleModal" type="button">Open</button> -->
     </main>
 <!-- <pre>{{ results }}</pre> --></template>
 

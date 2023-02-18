@@ -18,17 +18,20 @@
 
                 <div class="modal__body">
                     <slot name="body">
-                        <p>Email: {{ data.email || '-' }}</p>
-                        <p>Endereço: {{ data.address || '-' }}</p>
-                        <p>Bairro: {{ data.district || '-' }}</p>
-                        <p>Cidade: {{ data.city || '-' }}</p>
-                        <p>Estado: {{ data.state || '-' }}</p>
-                    </slot>
-                </div>
-
-                <div class="modal__footer">
-                    <slot name="footer">
-
+                        <section class="modal__body__first">
+                            <p>Email</p>
+                            <p>Endereço</p>
+                            <p>Bairro</p>
+                            <p>Cidade</p>
+                            <p>Estado</p>
+                        </section>
+                        <section class="modal__body__second">
+                            <p>{{ data.email || '-' }}</p>
+                            <p>{{ data.address || '-' }}</p>
+                            <p>{{ data.district || '-' }}</p>
+                            <p>{{ data.city || '-' }}</p>
+                            <p>{{ data.state || '-' }}</p>
+                        </section>
                     </slot>
                 </div>
             </div>

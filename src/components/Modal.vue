@@ -1,8 +1,8 @@
 <template>
     <Transition name="showModal">
-        <section v-if="showModal" class="modal_mask">
-            <div class="modal_container">
-                <div class="modal_header">
+        <section v-if="showModal" class="modal__mask">
+            <div class="modal__container">
+                <div class="modal__header">
                     <slot name="header">
                         <div class="modal__title">
                             <img class="contact__photo" :src="data.photo_small" alt="profile photo">
@@ -16,7 +16,7 @@
                     </slot>
                 </div>
 
-                <div class="modal_body">
+                <div class="modal__body">
                     <slot name="body">
                         <p>Email: {{ data.email || '-' }}</p>
                         <p>Endereço: {{ data.address || '-' }}</p>
@@ -26,7 +26,7 @@
                     </slot>
                 </div>
 
-                <div class="modal_footer">
+                <div class="modal__footer">
                     <slot name="footer">
 
                     </slot>

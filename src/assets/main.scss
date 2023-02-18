@@ -258,86 +258,96 @@ hr {
   width: 100%;
 }
 
-.modal_mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  transition: opacity 0.3s ease;
-}
 
-.modal_container {
-  width: 600px;
-  margin: auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-}
 
-.modal_header {
-  display: flex;
-  justify-content: space-between;
+.modal {
+  &__mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    transition: opacity 0.3s ease;
+  }
 
-  .modal__title {
+  &__container {
+    width: 600px;
+    margin: auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+
+    border: 1px solid #E1E1E1;
+
+    /* card shadow */
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
     display: flex;
     align-items: center;
     text-transform: capitalize;
-
-    .modal__name {
-      margin-left: 10px;
-    }
   }
 
-  .modal__buttons {
+  &__name {
+    margin-left: 10px;
+  }
+
+  &__buttons {
     display: flex;
     // align-items: center;
   }
-}
 
-.modal_body {
-  margin: 20px 0;
-}
+  &__body {
+    margin: 20px 0;
+  }
 
-.modal__edit__button {
-  width: 32px;
-  height: 32px;
-  background-repeat: no-repeat;
-  float: right;
-  background-image: url('@/assets/icons/edit.svg');
-}
+  &__edit__button {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    float: right;
+    background-image: url('@/assets/icons/edit.svg');
+  }
 
-.modal__delete__buton {
-  width: 32px;
-  height: 32px;
-  background-repeat: no-repeat;
-  float: right;
-  background-image: url('@/assets/icons/delete.svg');
-}
+  &__delete__buton {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    float: right;
+    background-image: url('@/assets/icons/delete.svg');
+  }
 
-.modal__close__button {
-  width: 32px;
-  height: 32px;
-  background-repeat: no-repeat;
-  float: right;
-  background-image: url('@/assets/icons/close.svg');
-}
+  &__close__button {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    float: right;
+    background-image: url('@/assets/icons/close.svg');
+  }
 
-.modal-enter-from {
-  opacity: 0;
-}
+  .modal-enter-from {
+    opacity: 0;
+  }
 
-.modal-leave-to {
-  opacity: 0;
-}
+  .modal-leave-to {
+    opacity: 0;
+  }
 
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  .modal-enter-from .modal-container,
+  .modal-leave-to .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
 }

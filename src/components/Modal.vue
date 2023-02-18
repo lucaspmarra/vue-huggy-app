@@ -2,21 +2,27 @@
     <Transition name="showModal">
         <div v-if="showModal" class="modal_mask">
             <div class="modal_container">
-                <span class="modal__close__button" @click="$emit('close')"></span>
-                <EditIcon />
-                <DeleteIcon @click="deleteContact(result.id)" />
-
                 <div class="modal_header">
-                    <slot name="header">default header</slot>
+                    <slot name="header">
+                        <h2>Nome: {{ data.name || '-' }}</h2>
+                    </slot>
                 </div>
 
                 <div class="modal_body">
-                    <slot name="body">default body</slot>
+                    <slot name="body">
+                        <p>Email: {{ data.email || '-' }}</p>
+                        <p>Endereço: {{ data.address || '-' }}</p>
+                        <p>Bairro: {{ data.district || '-' }}</p>
+                        <p>Cidade: {{ data.city || '-' }}</p>
+                        <p>Estado: {{ data.state || '-' }}</p>
+                    </slot>
                 </div>
 
                 <div class="modal_footer">
                     <slot name="footer">
-                        default footer
+                        <span class="modal__close__button" @click="$emit('close')"></span>
+                        <EditIcon />
+                        <DeleteIcon @delete-contact="deleteContact(data.id)" />
                     </slot>
                 </div>
             </div>
@@ -25,47 +31,23 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import DeleteIcon from '@/components/DeleteIcon.vue'
 import EditIcon from '@/components/EditIcon.vue';
 export default {
+    name: 'Modal',
     components: { DeleteIcon, EditIcon },
     props: ({
         showModal: Boolean,
         toggleModal: Boolean,
-        title: {
-            type: String,
-            required: false,
-        },
-        id: {
-            type: Number,
-            required: false,
-        },
-        name: {
-            type: String,
-            required: false,
-        },
-        photo: {
-            type: String,
-            required: false,
-        },
-        email: {
-            type: String,
-            required: false,
-        },
-        address: {
-            type: String,
-            required: false,
-        },
-        district: {
-            type: String,
-            required: false,
-        },
-        state: {
-            type: String,
-            required: false
-        },
-
+        data: Object,
     }),
+    setup (props) {
+        const shouldShow = computed(() => {
+            return !!props.data;
+        })
+        return { shouldShow }
+    }
 }
 
 

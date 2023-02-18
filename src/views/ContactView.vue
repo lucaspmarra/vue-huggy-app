@@ -4,7 +4,7 @@
         <section class="contact__wrapper">
             <div class="contact__actions">
                 <input type="text" placeholder="Buscar contato" class="contact__search" v-model="searchQuery">
-                <button @click="createModal" class="contact__create"><img src="@/assets/icons/add.svg"
+                <button @click="Modal" class="contact__create"><img src="@/assets/icons/add.svg"
                         class="contact__create__icon" alt="Create icon">Adicionar Contato</button>
             </div>
             <section class="contact__empty" v-if="loading">
@@ -32,7 +32,7 @@
 
                 </section>
                 <tbody>
-                    <tr v-for="contact in queryResults" :key="contact.id">
+                    <tr v-for="contact in queryResults" :key="contact.id" @click="selectContact(contact)">
                         <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
                         </td>
                         <td>{{ contact.name || '-' }} </td>
@@ -40,21 +40,16 @@
                         <td>{{ contact.mobile || '-' }}</td>
                         <td>
                             <EditIcon />
-                            <DeleteIcon @click="deleteContact(contact.id)" />
+                            <DeleteIcon @delete-contact="deleteContact(contact.id)" />
                         </td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <CreateModal :createModal="show" @close="show = false">
-            <template #header>
-                <p>Adicionar contato</p>
-            </template>
-            <template #body>
-                <p>body</p>
-            </template>
-        </CreateModal>
+        <!-- <CreateModal :createModal="show" @close="show = false" /> -->
+        <Modal :showModal="show" @close="show = false" :data="selectedContact" />
+
         <!-- <button @click="toggleModal" type="button">Open</button> -->
     </main>
 <!-- <pre>{{ results }}</pre> --></template>
@@ -65,13 +60,12 @@ import axios from 'axios';
 import EditIcon from '@/components/EditIcon.vue';
 import CreateIcon from '@/components/CreateIcon.vue';
 import DeleteIcon from '@/components/DeleteIcon.vue'
-import CreateModal from "@/components/CreateModal.vue";
 import Modal from '@/components/Modal.vue';
 
 const BearerToken = import.meta.env.VITE_BEARER_TOKEN
 
 export default {
-    components: { EditIcon, DeleteIcon, CreateIcon, CreateModal, Modal },
+    components: { EditIcon, DeleteIcon, CreateIcon, Modal },
     setup () {
         const loading = ref(true);
         const results = ref([]);
@@ -79,10 +73,12 @@ export default {
         const show = ref(false);
         const searchQuery = ref('');
         const queryResults = ref([]);
+        const selectedContact = ref(null);
 
-        const createModal = () => {
-            show.value = !show.value
-        };
+        const selectContact = (contact) => {
+            selectedContact.value = contact;
+            show.value = true;
+        }
 
         const toggleModal = () => {
             show.value = !show.value;
@@ -158,12 +154,12 @@ export default {
             error,
             show,
             toggleModal,
-            createModal,
             deleteContact,
             searchQuery,
-            queryResults
+            queryResults,
+            selectedContact,
+            selectContact
         };
-
     },
 }
 </script>

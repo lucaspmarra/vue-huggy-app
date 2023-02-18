@@ -6,11 +6,15 @@
                 <EditIcon />
                 <DeleteIcon @click="deleteContact(result.id)" />
                 <div class="modal_header">
-                    <slot name="header">default header</slot>
+                    <slot name="header">Adicionar contato</slot>
                 </div>
 
                 <div class="modal_body">
-                    <slot name="body">default body</slot>
+                    <slot name="body">
+                        <label for="name">Nome:</label>
+                        <input name="name" type="text" v-model="nome">
+                        {{ nome }}
+                    </slot>
                 </div>
 
                 <div class="modal_footer">
@@ -26,12 +30,22 @@
 <script>
 import DeleteIcon from '@/components/DeleteIcon.vue'
 import EditIcon from '@/components/EditIcon.vue';
+import { ref } from 'vue';
 export default {
     components: { DeleteIcon, EditIcon },
     props: ({
         createModal: Boolean,
         toggleModal: Boolean,
+
     }),
+
+    setup () {
+        const nome = ref('');
+
+        return {
+            nome,
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>

@@ -11,9 +11,17 @@
 
                 <div class="modal__body">
                     <slot name="body">
-                        <label for="name">Nome:</label>
-                        <input name="name" type="text" v-model="nome">
-                        {{ nome }}
+                        <form @submit.prevent="submitContact">
+                            <label for="name">Nome:</label>
+                            <input name="name" type="text" v-model="nome">
+                            {{ nome }}
+
+                            <label for="email">Email:</label>
+                            <input name="email" type="email" v-model="email">
+                            {{ email }}
+                            <button type="submit">Enviar</button>
+                        </form>
+
                     </slot>
                 </div>
 
@@ -37,14 +45,23 @@ export default {
     props: ({
         createModal: Boolean,
         toggleCreateModal: Boolean,
-
     }),
 
-    setup () {
+    setup (props, { emit }) {
         const nome = ref('');
+        const email = ref('')
+
+        function submitContact () {
+            const payload = { name: nome.value, email: email.value };
+            emit('contact-data', payload);
+            nome.value = '';
+            email.value = '';
+        }
 
         return {
             nome,
+            email,
+            submitContact
         }
     }
 }

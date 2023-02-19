@@ -14,11 +14,18 @@
                         <form @submit.prevent="submitContact">
                             <label for="name">Nome:</label>
                             <input name="name" type="text" v-model="nome">
-                            {{ nome }}
 
                             <label for="email">Email:</label>
                             <input name="email" type="email" v-model="email">
-                            {{ email }}
+
+                            <br>
+
+                            <label for="phone">Telefone:</label>
+                            <input name="phone" type="text" v-mode="phone">
+
+                            <label for="mobile">Celular:</label>
+                            <input name="mobile" type="text" v-model="mobile">
+
                             <button type="submit">Enviar</button>
                         </form>
 
@@ -46,21 +53,32 @@ export default {
         createModal: Boolean,
         toggleCreateModal: Boolean,
     }),
-
+    emits: ['contact-data'],
     setup (props, { emit }) {
         const nome = ref('');
-        const email = ref('')
+        const email = ref('');
+        const phone = ref('');
+        const mobile = ref('');
 
-        function submitContact () {
-            const payload = { name: nome.value, email: email.value };
+        const submitContact = () => {
+            const payload = {
+                name: nome.value,
+                email: email.value,
+                phone: phone.value,
+                mobile: mobile.value
+            };
             emit('contact-data', payload);
             nome.value = '';
             email.value = '';
+            phone.value = '';
+            mobile.value = '';
         }
 
         return {
             nome,
             email,
+            phone,
+            mobile,
             submitContact
         }
     }

@@ -10,7 +10,7 @@
                         </div>
                         <div class="modal__buttons">
                             <EditIcon />
-                            <DeleteIcon @click="$emit(data.id)" />
+                            <DeleteIcon @click="$emit('delete-contact')" />
                             <span class="modal__close__button" @click="$emit('close')"></span>
                         </div>
                     </slot>

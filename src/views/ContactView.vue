@@ -39,7 +39,7 @@
                         <td>{{ contact.mobile || '-' }}</td>
                         <td @click.stop="showModal">
                             <EditIcon />
-                            <DeleteIcon @click="showDeleteModal = true" />
+                            <DeleteIcon @delete-contact="deleteContact(contact.id)" />
                         </td>
                     </tr>
 
@@ -50,11 +50,11 @@
         <Modal :showModal="showModal" @close="showModal = false" :data="selectedContact"
             @delete-contact="deleteContact(selectedContact.id)" />
 
-        <CreateModal :createModal="showCreateModal" @close="showCreateModal = false" />
+        <CreateModal :createModal="showCreateModal" @close="showCreateModal = false" @contact-data="createContact" />
 
-        <DeleteModal :deleteModal="showDeleteModal" @delete-modal="deleteContact" @close="showDeleteModal = false" />
+        <!-- <DeleteModal :deleteModal="showDeleteModal" @delete-modal="deleteContact" @close="showDeleteModal = false" /> -->
 
-        <!-- <DeleteIcon @delete-contact="deleteContact(contact.id)" /> -->
+        <DeleteIcon @delete-contact="deleteContact(contact.id)" />
     </main>
 <!-- <pre>{{ results }}</pre> --></template>
 
@@ -142,6 +142,25 @@ export default {
                 state.error = error;
                 state.isLoading = false;
             } finally {
+                toggleModal()
+                getContacts() // make a call and refresh component
+
+            }
+        };
+
+        const createContact = async (payload) => {
+            console.log(payload);
+            state.isLoading = true;
+            try {
+                await api.post(`/contacts`, payload);
+                state.isLoading = false;
+                state.id = null;
+                alert('Enviado')
+            } catch (error) {
+                state.error = error;
+                state.isLoading = false;
+            } finally {
+                toggleCreateModal()
                 getContacts() // make a call and refresh component
 
             }
@@ -181,6 +200,7 @@ export default {
             queryResults,
             selectedContact,
             selectContact,
+            createContact,
         };
     },
 }

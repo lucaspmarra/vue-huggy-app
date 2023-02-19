@@ -261,6 +261,19 @@ hr {
 
 
 .modal {
+  &__hr {
+    width: 100%;
+    height: 1px;
+
+    color: #E1E1E1;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    margin-top: 10px;
+  }
+
   &__mask {
     position: fixed;
     z-index: 9998;
@@ -298,8 +311,8 @@ hr {
     align-items: center;
     text-transform: capitalize;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 28px;
+    font-size: 14px;
+    // line-height: 28px;
     letter-spacing: 0.15px;
     color: #262626;
   }
@@ -311,12 +324,16 @@ hr {
   &__buttons {
     display: flex;
     // align-items: center;
+    gap: 25px;
   }
 
   &__body {
     margin: 20px 0;
     display: flex;
 
+    p {
+      padding-bottom: 16px;
+    }
   }
 
   &__body__first {

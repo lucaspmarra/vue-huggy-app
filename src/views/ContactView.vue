@@ -4,7 +4,7 @@
         <section class="contact__wrapper">
             <div class="contact__actions">
                 <input type="text" placeholder="Buscar contato" class="contact__search" v-model="searchQuery">
-                <button @click="Modal" class="contact__create"><img src="@/assets/icons/add.svg"
+                <button @click="showCreateModal = true" class="contact__create"><img src="@/assets/icons/add.svg"
                         class="contact__create__icon" alt="Create icon">Adicionar Contato</button>
             </div>
             <section class="contact__empty" v-if="loading">
@@ -29,7 +29,6 @@
                     <div v-if="error.error === 'access_denied'">
                         <p>Por favor, verifique o token de autenticação.</p>
                     </div>
-
                 </section>
                 <tbody>
                     <tr v-for="contact in queryResults" :key="contact.id" @click="selectContact(contact)">
@@ -38,18 +37,24 @@
                         <td>{{ contact.name || '-' }} </td>
                         <td>{{ contact.email || '-' }}</td>
                         <td>{{ contact.mobile || '-' }}</td>
-                        <td>
+                        <td @click.stop="showModal">
                             <EditIcon />
-                            <DeleteIcon @delete-contact="deleteContact(contact.id)" />
+                            <DeleteIcon @click="showDeleteModal = true" />
                         </td>
                     </tr>
+
                 </tbody>
             </table>
         </section>
 
-        <Modal :showModal="show" @close="show = false" :data="selectedContact"
+        <Modal :showModal="showModal" @close="showModal = false" :data="selectedContact"
             @delete-contact="deleteContact(selectedContact.id)" />
 
+        <CreateModal :createModal="showCreateModal" @close="showCreateModal = false" />
+
+        <DeleteModal :deleteModal="showDeleteModal" @delete-modal="deleteContact" @close="showDeleteModal = false" />
+
+        <!-- <DeleteIcon @delete-contact="deleteContact(contact.id)" /> -->
     </main>
 <!-- <pre>{{ results }}</pre> --></template>
 
@@ -59,28 +64,42 @@ import axios from 'axios';
 import EditIcon from '@/components/EditIcon.vue';
 import CreateIcon from '@/components/CreateIcon.vue';
 import DeleteIcon from '@/components/DeleteIcon.vue'
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/modals/Modal.vue';
+import CreateModal from '@/components/modals/CreateModal.vue';
+import DeleteModal from '../components/modals/DeleteModal.vue';
+
 
 const BearerToken = import.meta.env.VITE_BEARER_TOKEN
 
 export default {
-    components: { EditIcon, DeleteIcon, CreateIcon, Modal },
+    components: { EditIcon, DeleteIcon, CreateIcon, Modal, CreateModal, DeleteModal },
     setup () {
         const loading = ref(true);
         const results = ref([]);
         const error = ref(false);
-        const show = ref(false);
+        const showModal = ref(false);
+        const showCreateModal = ref(false);
+        const showDeleteModal = ref(false);
         const searchQuery = ref('');
         const queryResults = ref([]);
         const selectedContact = ref(null);
 
+
         const selectContact = (contact) => {
             selectedContact.value = contact;
-            show.value = true;
+            showModal.value = true;
         }
 
         const toggleModal = () => {
-            show.value = !show.value;
+            showModal.value = !showModal.value;
+        };
+
+        const toggleCreateModal = () => {
+            showCreateModal.value = !showCreateModal.value;
+        };
+
+        const toggleDeleteModal = () => {
+            showDelete.value = !showDeleteModal.value;
         };
 
         const state = reactive({
@@ -151,13 +170,17 @@ export default {
             loading,
             results,
             error,
-            show,
+            showModal,
+            showCreateModal,
+            showDeleteModal,
             toggleModal,
+            toggleCreateModal,
+            toggleDeleteModal,
             deleteContact,
             searchQuery,
             queryResults,
             selectedContact,
-            selectContact
+            selectContact,
         };
     },
 }

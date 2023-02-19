@@ -10,12 +10,12 @@
                         </div>
                         <div class="modal__buttons">
                             <EditIcon />
-                            <DeleteIcon @click="$emit('delete-contact')" />
+                            <DeleteIcon @click="$emit(data.id)" />
                             <span class="modal__close__button" @click="$emit('close')"></span>
                         </div>
                     </slot>
                 </div>
-
+                <hr class="modal__hr">
                 <div class="modal__body">
                     <slot name="body">
                         <section class="modal__body__first">
@@ -25,6 +25,7 @@
                             <p>Cidade</p>
                             <p>Estado</p>
                         </section>
+
                         <section class="modal__body__second">
                             <p>{{ data.email || '-' }}</p>
                             <p>{{ data.address || '-' }}</p>

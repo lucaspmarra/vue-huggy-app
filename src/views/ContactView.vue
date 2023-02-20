@@ -73,7 +73,7 @@ import DeleteModal from '@/components/modals/DeleteModal.vue';
 
 
 // const BearerToken = import.meta.env.VITE_BEARER_TOKEN;
-const BearerToken = process.env.VITE_BEARER_TOKEN;
+const BearerToken = process.env.BEARER_TOKEN;
 
 
 export default {

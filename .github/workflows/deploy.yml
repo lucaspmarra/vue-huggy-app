@@ -25,3 +25,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.HUGGY_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
+        env:
+          BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}

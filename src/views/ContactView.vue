@@ -54,7 +54,7 @@
 
         <!-- <DeleteModal :deleteModal="showDeleteModal" @delete-modal="deleteContact" @close="showDeleteModal = false" /> -->
 
-        <DeleteIcon @delete-contact="deleteContact(contact.id)" />
+        <!-- <DeleteIcon @delete-contact="deleteContact(contact.id)" /> -->
     </main>
 <!-- <pre>{{ results }}</pre> --></template>
 

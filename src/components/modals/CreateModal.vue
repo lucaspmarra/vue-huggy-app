@@ -2,9 +2,6 @@
     <Transition name="createModal">
         <section v-if="createModal" class="modal__mask">
             <div class="modal__container">
-
-                <!-- <EditIcon /> -->
-                <!-- <DeleteIcon @click="deleteContact(result.id)" /> -->
                 <div class="modal__header">
                     <slot name="header">Adicionar novo contato</slot>
                 </div>
@@ -58,10 +55,6 @@
 
                     </slot>
                 </div>
-
-
-
-
             </div>
         </section>
     </Transition>

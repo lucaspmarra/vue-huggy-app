@@ -26,7 +26,7 @@
                     <p>{{ error.error }}</p>
                     <p>{{ error.message }}</p>
                     <div v-if="error.error === 'access_denied'">
-                        <p>Por favor, verifique o token de autenticação.</p>
+                        <h2>Por favor, verifique o token de autenticação.</h2>
                     </div>
                 </section>
 

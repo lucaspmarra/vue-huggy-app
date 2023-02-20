@@ -3,6 +3,8 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+env:
+ VITE_BEARER_TOKEN: ${{ VITE_BEARER_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest

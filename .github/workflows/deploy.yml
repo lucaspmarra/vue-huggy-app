@@ -3,6 +3,8 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+env:
+  VITE_BEARER_TOKEN: ${{ secrets.VITE_BEARER_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,8 +19,7 @@ jobs:
       - name: Build project
         run: yarn build
         env:
-          # VITE_BEARER_TOKEN: ${{ secrets.VITE_BEARER_TOKEN }}
-          VITE_BEARER_TOKEN: ${{ env.VITE_BEARER_TOKEN }}
+          VITE_BEARER_TOKEN: ${{ secrets.VITE_BEARER_TOKEN }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3

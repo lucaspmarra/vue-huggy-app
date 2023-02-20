@@ -29,10 +29,7 @@
                         <p>Por favor, verifique o token de autenticação.</p>
                     </div>
                 </section>
-                <!-- <section class="contact__empty">
-                    <img src="@/assets/empty-book.svg"
-                        alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
-                </section> -->
+
                 <tbody>
                     <tr v-for="contact in queryResults" :key="contact.id" @click="selectContact(contact)">
                         <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
@@ -54,12 +51,8 @@
             @delete-contact="deleteContact(selectedContact.id)" />
 
         <CreateModal :createModal="showCreateModal" @close="toggleCreateModal()" @contact-data="createContact" />
-
-        <!-- <DeleteModal :deleteModal="showDeleteModal" @close="showDeleteModal = false" /> -->
-
-        <!-- <DeleteIcon @delete-contact="deleteContact(contact.id)" /> -->
     </main>
-<!-- <pre>{{ results }}</pre> --></template>
+</template>
 
 <script>
 import { ref, onMounted, reactive, watchEffect } from 'vue';

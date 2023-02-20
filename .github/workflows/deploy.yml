@@ -23,3 +23,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.HUGGY_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
+        env:
+           VITE_BEARER_TOKEN: ${{env.VITE_BEARER_TOKEN}}

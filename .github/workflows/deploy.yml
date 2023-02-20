@@ -3,8 +3,6 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-env:
-  VITE_BEARER_TOKEN: ${{ secrets.VITE_BEARER_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,12 +17,11 @@ jobs:
       - name: Build project
         run: yarn build
         env:
-          VITE_BEARER_TOKEN: ${{ secrets.VITE_BEARER_TOKEN }}
+          BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          VITE_BEARER_TOKEN: ${{ secrets.VITE_BEARER_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.HUGGY_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist

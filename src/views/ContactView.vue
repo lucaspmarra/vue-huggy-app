@@ -7,9 +7,8 @@
                 <button @click="toggleCreateModal()" class="contact__create"><img src="@/assets/icons/add.svg"
                         class="contact__create__icon" alt="Create icon">Adicionar Contato</button>
             </div>
-            <section class="contact__empty" v-if="loading">
-                <img src="@/assets/empty-book.svg"
-                    alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
+            <section v-if="loading">
+                <p>Carregando...</p>
             </section>
             <table else>
                 <caption class="contact__caption">Lista de contatos</caption>
@@ -30,6 +29,10 @@
                         <p>Por favor, verifique o token de autenticação.</p>
                     </div>
                 </section>
+                <!-- <section class="contact__empty">
+                    <img src="@/assets/empty-book.svg"
+                        alt="Ilustração de um livro vazio, demonstrando que não há nenhum conteúdo">
+                </section> -->
                 <tbody>
                     <tr v-for="contact in queryResults" :key="contact.id" @click="selectContact(contact)">
                         <td><img class="contact__photo" :src="contact.photo_small" alt="profile photo">
@@ -38,7 +41,7 @@
                         <td>{{ contact.email || '-' }}</td>
                         <td>{{ contact.mobile || '-' }}</td>
                         <td @click.stop="showModal">
-                            <EditIcon />
+                            <EditIcon @click="editButton()" />
                             <DeleteIcon @delete-contact="deleteContact(contact.id)" />
                         </td>
                     </tr>
@@ -69,7 +72,8 @@ import CreateModal from '@/components/modals/CreateModal.vue';
 import DeleteModal from '@/components/modals/DeleteModal.vue';
 
 
-const BearerToken = import.meta.env.VITE_BEARER_TOKEN
+const BearerToken = import.meta.env.VITE_BEARER_TOKEN;
+// const BearerToken = process.env.VITE_BEARER_TOKEN;
 
 export default {
     components: { EditIcon, DeleteIcon, CreateIcon, Modal, CreateModal, DeleteModal },
@@ -106,6 +110,10 @@ export default {
             id: null,
         });
 
+        const editButton = () => {
+            alert('Sorry, this button is not working 🙁')
+        }
+
         const api = axios.create({
             baseURL: 'https://api.huggy.app/v3',
             headers: {
@@ -133,9 +141,10 @@ export default {
             try {
                 await api.delete(`/contacts/${id}`);
                 state.id = null;
-                alert('Deletado')
+                alert('Contato deletado!')
             } catch (error) {
                 state.error = error;
+                console.log(error);
             } finally {
                 // toggleModal()
                 getContacts() // make a call and refresh component
@@ -148,7 +157,7 @@ export default {
             try {
                 await api.post(`/contacts`, payload);
                 state.id = null;
-                alert('Enviado')
+                alert('Contato adicionado!')
             } catch (error) {
                 state.error = error;
                 alert(error.response.data.reason)
@@ -193,6 +202,7 @@ export default {
             selectedContact,
             selectContact,
             createContact,
+            editButton,
         };
     },
 }

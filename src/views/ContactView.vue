@@ -73,7 +73,7 @@ import DeleteModal from '@/components/modals/DeleteModal.vue';
 
 
 // const BearerToken = import.meta.env.VITE_BEARER_TOKEN;
-const BearerToken = env.VITE_BEARER_TOKEN;
+const BearerToken = process.env.VITE_BEARER_TOKEN;
 
 export default {
     components: { EditIcon, DeleteIcon, CreateIcon, Modal, CreateModal, DeleteModal },

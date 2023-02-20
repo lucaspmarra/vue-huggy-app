@@ -4,7 +4,7 @@
         <section class="contact__wrapper">
             <div class="contact__actions">
                 <input type="text" placeholder="Buscar contato" class="contact__search" v-model="searchQuery">
-                <button @click="showCreateModal = true" class="contact__create"><img src="@/assets/icons/add.svg"
+                <button @click="toggleCreateModal()" class="contact__create"><img src="@/assets/icons/add.svg"
                         class="contact__create__icon" alt="Create icon">Adicionar Contato</button>
             </div>
             <section class="contact__empty" v-if="loading">
@@ -47,12 +47,12 @@
             </table>
         </section>
 
-        <Modal :showModal="showModal" @close="showModal = false" :data="selectedContact"
+        <Modal :showModal="showModal" @close="toggleModal()" :data="selectedContact"
             @delete-contact="deleteContact(selectedContact.id)" />
 
-        <CreateModal :createModal="showCreateModal" @close="showCreateModal = false" @contact-data="createContact" />
+        <CreateModal :createModal="showCreateModal" @close="toggleCreateModal()" @contact-data="createContact" />
 
-        <!-- <DeleteModal :deleteModal="showDeleteModal" @delete-modal="deleteContact" @close="showDeleteModal = false" /> -->
+        <!-- <DeleteModal :deleteModal="showDeleteModal" @close="showDeleteModal = false" /> -->
 
         <!-- <DeleteIcon @delete-contact="deleteContact(contact.id)" /> -->
     </main>
@@ -66,7 +66,7 @@ import CreateIcon from '@/components/CreateIcon.vue';
 import DeleteIcon from '@/components/DeleteIcon.vue'
 import Modal from '@/components/modals/Modal.vue';
 import CreateModal from '@/components/modals/CreateModal.vue';
-import DeleteModal from '../components/modals/DeleteModal.vue';
+import DeleteModal from '@/components/modals/DeleteModal.vue';
 
 
 const BearerToken = import.meta.env.VITE_BEARER_TOKEN
@@ -99,13 +99,11 @@ export default {
         };
 
         const toggleDeleteModal = () => {
-            showDelete.value = !showDeleteModal.value;
+            showDeleteModal.value = !showDeleteModal.value;
         };
 
         const state = reactive({
             id: null,
-            isLoading: false,
-            error: null,
         });
 
         const api = axios.create({
@@ -121,7 +119,7 @@ export default {
             try {
                 const response = await api.get('/contacts')
                 results.value = response.data
-                console.log(results.value);
+                // console.log(results.value);
             } catch (isError) {
                 console.log(isError.response.data);
                 error.value = isError.response.data;
@@ -132,37 +130,31 @@ export default {
         };
 
         const deleteContact = async (id) => {
-            state.isLoading = true;
             try {
                 await api.delete(`/contacts/${id}`);
-                state.isLoading = false;
                 state.id = null;
                 alert('Deletado')
             } catch (error) {
                 state.error = error;
-                state.isLoading = false;
             } finally {
-                toggleModal()
+                // toggleModal()
                 getContacts() // make a call and refresh component
 
             }
         };
 
         const createContact = async (payload) => {
-            console.log(payload);
-            state.isLoading = true;
+            // console.log(payload);
             try {
                 await api.post(`/contacts`, payload);
-                state.isLoading = false;
                 state.id = null;
                 alert('Enviado')
             } catch (error) {
                 state.error = error;
-                state.isLoading = false;
+                alert(error.response.data.reason)
             } finally {
                 toggleCreateModal()
                 getContacts() // make a call and refresh component
-
             }
         };
 

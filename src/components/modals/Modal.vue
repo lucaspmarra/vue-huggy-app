@@ -15,7 +15,6 @@
                         </div>
                     </slot>
                 </div>
-                <hr class="modal__hr">
                 <div class="modal__body">
                     <slot name="body">
                         <section class="modal__body__first">

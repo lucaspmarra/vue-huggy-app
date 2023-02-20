@@ -15,8 +15,9 @@
                 <hr class="modal__hr">
                 <div class="modal__body">
                     <slot name="body">
-                        <p>deletar?</p>
-                        <p>{{ data.id }}</p>
+                        <p>Deletar?</p>
+                        <p>ID: {{ data.id }}</p>
+                        <p>Nome: {{ data.name }}</p>
                         <button @click="$emit('delete-contact')">Deletar</button>
                     </slot>
                 </div>

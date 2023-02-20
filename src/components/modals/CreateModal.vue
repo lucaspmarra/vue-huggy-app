@@ -2,41 +2,66 @@
     <Transition name="createModal">
         <section v-if="createModal" class="modal__mask">
             <div class="modal__container">
-                <span class="modal__close__button" @click="$emit('close')"></span>
+
                 <!-- <EditIcon /> -->
                 <!-- <DeleteIcon @click="deleteContact(result.id)" /> -->
                 <div class="modal__header">
-                    <slot name="header">Adicionar contato</slot>
+                    <slot name="header">Adicionar novo contato</slot>
                 </div>
 
                 <div class="modal__body">
                     <slot name="body">
-                        <form @submit.prevent="submitContact">
-                            <label for="name">Nome:</label>
-                            <input name="name" type="text" v-model="nome">
+                        <form @submit.prevent="submitContact" class="modal__form">
+                            <label class="label" for="name">Nome</label>
+                            <input id="name" name="name" type="text" v-model="name" placeholder="Nome completo" required>
 
-                            <label for="email">Email:</label>
-                            <input name="email" type="email" v-model="email">
 
-                            <br>
 
-                            <label for="phone">Telefone:</label>
-                            <input name="phone" type="text" v-mode="phone">
 
-                            <label for="mobile">Celular:</label>
-                            <input name="mobile" type="text" v-model="mobile">
+                            <label class="label" for="email">Email</label>
+                            <input id="email" name="email" type="email" v-model="email" placeholder="Email" required>
 
-                            <button type="submit">Enviar</button>
+
+
+
+                            <label class="label" for="phone">Telefone</label>
+                            <input id="phone" name="phone" type="text" placeholder="Telefone" v-model="phone">
+
+
+
+
+                            <label class="label" for="mobile">Celular</label>
+                            <input id="mobile" name="mobile" type="text" placeholder="Celular" v-model="mobile">
+
+
+
+                            <label class="label" for="address">Endereço</label>
+                            <input id="address" name="address" type="text" placeholder="Endereço" v-model="address">
+
+
+                            <div>
+                                <ul class="form__ul">
+                                    <li class="form__li">
+                                        <label class="label" for="district">Bairro</label>
+                                        <input id="district" name="distric" type="text" placeholder="Bairro"
+                                            v-model="district">
+                                    </li>
+                                    <li><label class="label" for="state">Estado</label>
+                                        <input id="state" name="state" type="text" placeholder="Estado" v-model="state">
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="cancel_button" @click="$emit('close')">Cancelar</button>
+                            <button id="createModal" class="contact__create" type="submit">Salvar</button>
                         </form>
 
                     </slot>
                 </div>
 
-                <div class="modal__footer">
-                    <slot name="footer">
-                        default footer
-                    </slot>
-                </div>
+
+
+
             </div>
         </section>
     </Transition>
@@ -55,30 +80,42 @@ export default {
     }),
     emits: ['contact-data'],
     setup (props, { emit }) {
-        const nome = ref('');
+        const name = ref('');
         const email = ref('');
         const phone = ref('');
         const mobile = ref('');
+        const address = ref('');
+        const district = ref('');
+        const state = ref('');
 
         const submitContact = () => {
             const payload = {
-                name: nome.value,
+                name: name.value,
                 email: email.value,
                 phone: phone.value,
-                mobile: mobile.value
+                mobile: mobile.value,
+                address: address.value,
+                district: district.value,
+                state: state.value
             };
             emit('contact-data', payload);
-            nome.value = '';
+            name.value = '';
             email.value = '';
             phone.value = '';
             mobile.value = '';
+            address.value = '';
+            district.value = "";
+            state.value = "";
         }
 
         return {
-            nome,
+            name,
             email,
             phone,
             mobile,
+            address,
+            district,
+            state,
             submitContact
         }
     }
